@@ -1,0 +1,218 @@
+@model Post
+@using LTLaserBlogMvc.Models
+
+@{
+    ViewData["Title"] = Model.Title;
+
+    var heads = Model.Blocks
+        .Where(x => x.BlockType == PostBlockType.Heading)
+        .ToList();
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/Blog_Detail.css"
+          asp-append-version="true" />
+}
+
+<main class="post-page">
+
+    <article class="article-shell">
+
+        <!-- BACK -->
+        <a class="article-back" href="/bai-viet">
+            <span class="back-arrow">←</span>
+            <span>Tất cả bài viết</span>
+        </a>
+
+
+        <!-- HEADER -->
+        <header class="article-header">
+
+            <div class="article-category">
+                KIẾN THỨC & ỨNG DỤNG
+            </div>
+
+            <h1 class="article-title">
+                @Model.Title
+            </h1>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Summary))
+            {
+                <p class="article-lead">
+                    @Model.Summary
+                </p>
+            }
+
+            <div class="article-meta">
+
+                <span class="meta-item">
+                    <span class="meta-icon">◷</span>
+                    @Model.CreatedAtUtc.ToLocalTime().ToString("dd/MM/yyyy")
+                </span>
+
+                <span class="meta-separator"></span>
+
+                <span class="meta-item">
+                    <span class="meta-icon">◉</span>
+
+                    @Model.ViewCount lượt xem
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- COVER -->
+        @if (Model.ImageData is not null)
+        {
+            <figure class="article-cover">
+
+                <img src="/bai-viet/anh/@Model.Id"
+                     alt="Ảnh bìa @Model.Title" />
+
+            </figure>
+        }
+
+
+        <!-- ARTICLE LAYOUT -->
+        <div class="article-layout">
+
+
+            <!-- CONTENT -->
+            <div class="article-content">
+
+                @{
+                    var hi = 0;
+                }
+
+                @if (Model.Blocks.Count == 0 &&
+                     !string.IsNullOrWhiteSpace(Model.Content))
+                {
+                    <p class="preserve">
+                        @Model.Content
+                    </p>
+                }
+
+
+                @foreach (var b in Model.Blocks.OrderBy(x => x.DisplayOrder))
+                {
+                    if (b.BlockType == PostBlockType.Heading)
+                    {
+                        <h2 id="muc-@hi"
+                            class="content-heading">
+
+                            @b.Content
+
+                        </h2>
+
+                        hi++;
+                    }
+
+                    else if (b.BlockType == PostBlockType.Paragraph)
+                    {
+                        <p class="preserve">
+                            @b.Content
+                        </p>
+                    }
+
+                    else if (b.BlockType == PostBlockType.Image)
+                    {
+                        <figure class="content-image">
+
+                            <img src="/bai-viet/anh-noi-dung/@b.Id"
+                                 alt="@(b.Caption ?? Model.Title)"
+                                 loading="lazy" />
+
+                            @if (!string.IsNullOrWhiteSpace(b.Caption))
+                            {
+                                <figcaption>
+                                    @b.Caption
+                                </figcaption>
+                            }
+
+                        </figure>
+                    }
+
+                    else if (b.BlockType == PostBlockType.Quote)
+                    {
+                        <blockquote class="content-quote preserve">
+                            @b.Content
+                        </blockquote>
+                    }
+
+                    else if (b.BlockType == PostBlockType.Notice)
+                    {
+                        <aside class="content-notice">
+
+                            <div class="notice-title">
+                                <span>!</span>
+                                <strong>Lưu ý</strong>
+                            </div>
+
+                            <div class="notice-content preserve">
+                                @b.Content
+                            </div>
+
+                        </aside>
+                    }
+
+                    else if (b.BlockType == PostBlockType.List)
+                    {
+                        <ul class="content-list">
+
+                            @foreach (var item in b.Content.Split(
+                                '\n',
+                                StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                <li>
+                                    @item.Trim()
+                                </li>
+                            }
+
+                        </ul>
+                    }
+                }
+
+            </div>
+
+
+            <!-- TOC -->
+            @if (heads.Count > 0)
+            {
+                <aside class="article-toc">
+
+                    <div class="toc-header">
+                        <span class="toc-label">
+                            TRONG BÀI VIẾT
+                        </span>
+
+                        <strong>
+                            Nội dung
+                        </strong>
+                    </div>
+
+                    <ol>
+
+                        @for (var i = 0; i < heads.Count; i++)
+                        {
+                            <li>
+
+                                <a href="#muc-@i">
+                                    @heads[i].Content
+                                </a>
+
+                            </li>
+                        }
+
+                    </ol>
+
+                </aside>
+            }
+
+        </div>
+
+    </article>
+
+</main>

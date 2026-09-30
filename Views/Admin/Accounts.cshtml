@@ -1,0 +1,55 @@
+@model CreateAdminVm
+
+@{
+    ViewData["Title"] = "Cấp tài khoản admin";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/View_Admin_Accounts.css"
+          asp-append-version="true" />
+}
+
+<div class="admin-create-page">
+
+    <div class="admin-create-card">
+
+        <div class="admin-create-header">
+            <div class="admin-icon">A</div>
+
+            <div>
+                <span class="admin-badge">QUẢN TRỊ HỆ THỐNG</span>
+                <h1>Cấp tài khoản admin</h1>
+                <p>Tạo và cấp quyền quản trị viên mới cho hệ thống.</p>
+            </div>
+        </div>
+
+        @if (TempData["Ok"] is string ok)
+        {
+            <div class="admin-alert success">
+                <span>✓</span>
+                <div>
+                    <strong>Thành công</strong>
+                    <p>@ok</p>
+                </div>
+            </div>
+        }
+
+        <div class="admin-alert warning">
+            <span>!</span>
+            <div>
+                <strong>Giới hạn truy cập</strong>
+                <p>
+                    Chỉ truy cập được từ mạng LAN hoặc Tailscale
+                    và yêu cầu một quản trị viên hiện tại đã đăng nhập.
+                </p>
+            </div>
+        </div>
+
+        <div class="admin-form-container">
+            <partial name="_AdminForm" model="Model" />
+        </div>
+
+    </div>
+
+</div>

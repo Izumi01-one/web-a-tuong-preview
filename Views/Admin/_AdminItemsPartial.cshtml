@@ -1,0 +1,28 @@
+@model IEnumerable<Post>
+
+@foreach (var p in Model)
+{
+    <div class="admin-row">
+        <div class="post-info">
+            <strong>@p.Title</strong>
+            <small> . @p.ViewCount lượt xem . @p.CreatedAtUtc.ToLocalTime().ToString("dd/MM/yyyy")</small>
+        </div>
+
+        <div class="row-actions">
+            <a class="action-view" href="/bai-viet/@p.Slug" target="_blank">
+                Xem
+            </a>
+
+            <a class="action-edit" href="/quan-tri/sua/@p.Id">
+                Sửa
+            </a>
+
+            <form method="post"
+                  action="/quan-tri/xoa/@p.Id"
+                  onsubmit="return confirm('Xóa bài này?')">
+                @Html.AntiForgeryToken()
+                <button class="danger">Xóa</button>
+            </form>
+        </div>
+    </div>
+}

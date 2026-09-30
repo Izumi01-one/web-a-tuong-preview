@@ -1,0 +1,565 @@
+﻿/* =========================
+   POST EDITOR
+========================= */
+
+:root {
+    --editor-bg: #f6f7fb;
+    --editor-surface: #ffffff;
+    --editor-border: #e4e7ee;
+    --editor-text: #20232d;
+    --editor-muted: #74798a;
+    --editor-primary: #6366f1;
+    --editor-primary-hover: #4f46e5;
+    --editor-danger: #ef4444;
+    --editor-danger-hover: #dc2626;
+    --editor-radius: 16px;
+    --editor-shadow: 0 12px 35px rgba(30, 41, 59, 0.08);
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+#post-editor {
+    width: min(1050px, calc(100% - 32px));
+    margin: 40px auto 70px;
+    padding: 36px;
+    box-sizing: border-box;
+    background: radial-gradient( circle at top right, rgba(99, 102, 241, 0.08), transparent 30% ), var(--editor-bg);
+    border: 1px solid var(--editor-border);
+    border-radius: 24px;
+}
+
+
+/* =========================
+   META INFORMATION
+========================= */
+
+.editor-meta {
+    display: grid;
+    gap: 10px;
+    padding: 28px;
+    margin-bottom: 30px;
+    background: var(--editor-surface);
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius);
+    box-shadow: var(--editor-shadow);
+}
+
+    .editor-meta label {
+        margin-top: 8px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: var(--editor-text);
+    }
+
+        .editor-meta label:first-child {
+            margin-top: 0;
+        }
+
+
+/* =========================
+   INPUTS
+========================= */
+
+#post-editor input[type="text"],
+#post-editor input:not([type]),
+#post-editor textarea,
+#post-editor select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    color: var(--editor-text);
+    background: #fff;
+    border: 1px solid var(--editor-border);
+    border-radius: 10px;
+    font: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+    #post-editor input[type="text"]:focus,
+    #post-editor input:not([type]):focus,
+    #post-editor textarea:focus,
+    #post-editor select:focus {
+        outline: none;
+        border-color: var(--editor-primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+    }
+
+
+/* =========================
+   TEXTAREA
+========================= */
+
+#post-editor textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.summary-input {
+    min-height: 100px !important;
+}
+
+
+/* =========================
+   FILE INPUT
+========================= */
+
+#post-editor input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px dashed #c9cdd8;
+    border-radius: 10px;
+    background: #fafbff;
+    cursor: pointer;
+}
+
+    #post-editor input[type="file"]::file-selector-button {
+        margin-right: 12px;
+        padding: 9px 14px;
+        border: none;
+        border-radius: 8px;
+        background: #eef0ff;
+        color: var(--editor-primary);
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        #post-editor input[type="file"]::file-selector-button:hover {
+            background: #e1e5ff;
+        }
+
+
+/* =========================
+   CHECKBOX
+========================= */
+
+.check {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px !important;
+    color: var(--editor-muted) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+    .check input[type="checkbox"] {
+        width: 17px;
+        height: 17px;
+        accent-color: var(--editor-primary);
+    }
+
+
+/* =========================
+   EDITOR HEADER
+========================= */
+
+.editor-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 36px 0 20px;
+}
+
+    .editor-head h2 {
+        margin: 0 0 6px;
+        color: var(--editor-text);
+        font-size: 1.5rem;
+    }
+
+    .editor-head p {
+        margin: 0;
+        color: var(--editor-muted);
+        font-size: 0.92rem;
+    }
+
+
+/* =========================
+   BLOCKS
+========================= */
+
+#blocks {
+    display: grid;
+    gap: 20px;
+}
+
+
+/* =========================
+   EDITOR BLOCK
+========================= */
+
+.editor-block {
+    position: relative;
+    padding: 24px;
+    background: var(--editor-surface);
+    border: 1px solid var(--editor-border);
+    border-radius: var(--editor-radius);
+    box-shadow: 0 8px 24px rgba(30, 41, 59, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+    .editor-block:hover {
+        border-color: #cdd1dd;
+        box-shadow: 0 14px 32px rgba(30, 41, 59, 0.09);
+    }
+
+
+/* =========================
+   BLOCK TOP BAR
+========================= */
+
+.block-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eef0f4;
+}
+
+.block-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--editor-primary);
+    font-size: 1rem;
+}
+
+    .block-label::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--editor-primary);
+        box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.1);
+    }
+
+.block-bar > div {
+    display: flex;
+    gap: 6px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button,
+.btn {
+    border: none;
+    border-radius: 10px;
+    font: inherit;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+}
+
+    button:active,
+    .btn:active {
+        transform: scale(0.97);
+    }
+
+
+/* Mini button */
+
+.mini {
+    min-width: 38px;
+    height: 36px;
+    padding: 0 10px;
+    background: #f3f4f8;
+    color: #505565;
+    border: 1px solid #e5e7ed;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+    .mini:hover {
+        background: #e9ebf2;
+    }
+
+
+    /* Danger button */
+
+    .mini.danger {
+        color: var(--editor-danger);
+        background: #fff5f5;
+        border-color: #ffe0e0;
+    }
+
+        .mini.danger:hover {
+            color: #fff;
+            background: var(--editor-danger);
+            border-color: var(--editor-danger);
+        }
+
+
+/* =========================
+   BLOCK CONTENT
+========================= */
+
+.editor-block > label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--editor-text);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.block-type {
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   TEXT / IMAGE FIELDS
+========================= */
+
+.text-fields,
+.image-fields {
+    padding: 18px;
+    border: 1px solid #edf0f5;
+    border-radius: 12px;
+    background: #fcfcfd;
+}
+
+    .text-fields label,
+    .image-fields label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--editor-text);
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+.image-fields {
+    margin-top: 15px;
+}
+
+
+/* =========================
+   ADD TOOLBAR
+========================= */
+
+.add-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+    padding: 22px;
+    background: #f1f2f7;
+    border: 1px dashed #cfd3de;
+    border-radius: var(--editor-radius);
+}
+
+    .add-toolbar button {
+        padding: 10px 16px;
+        background: #fff;
+        color: #555b6d;
+        border: 1px solid #e2e5ec;
+        font-weight: 600;
+    }
+
+        .add-toolbar button:hover {
+            color: var(--editor-primary);
+            border-color: var(--editor-primary);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+
+/* =========================
+   EDITOR ACTIONS
+========================= */
+
+.editor-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid var(--editor-border);
+}
+
+    .editor-actions button,
+    .editor-actions .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 22px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+        .editor-actions button[type="submit"] {
+            background: var(--editor-primary);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+        }
+
+            .editor-actions button[type="submit"]:hover {
+                background: var(--editor-primary-hover);
+                transform: translateY(-2px);
+                box-shadow: 0 12px 25px rgba(99, 102, 241, 0.3);
+            }
+
+
+/* Secondary buttons */
+
+.secondary {
+    background: #fff !important;
+    color: #555b6d !important;
+    border: 1px solid #dfe2e9 !important;
+}
+
+    .secondary:hover {
+        background: #f6f7fa !important;
+    }
+
+
+/* =========================
+   VALIDATION
+========================= */
+
+.validation-summary-valid {
+    display: none;
+}
+
+.validation-summary-errors {
+    margin-bottom: 20px;
+    padding: 15px 18px;
+    color: #b91c1c;
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+}
+
+    .validation-summary-errors ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+    }
+
+
+/* =========================
+   PREVIEW DIALOG
+========================= */
+
+#preview-dialog {
+    width: min(850px, 92vw);
+    max-height: 85vh;
+    padding: 0;
+    overflow: hidden;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.28);
+}
+
+    #preview-dialog::backdrop {
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(5px);
+    }
+
+#preview-close {
+    position: sticky;
+    top: 15px;
+    left: calc(100% - 70px);
+    z-index: 5;
+    margin: 15px;
+}
+
+#preview-content {
+    padding: 30px;
+}
+
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+#blocks::-webkit-scrollbar {
+    width: 8px;
+}
+
+#blocks::-webkit-scrollbar-thumb {
+    background: #d5d8e0;
+    border-radius: 20px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    #post-editor {
+        width: calc(100% - 20px);
+        margin: 20px auto 40px;
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .editor-meta {
+        padding: 20px;
+    }
+
+    .editor-block {
+        padding: 18px;
+    }
+
+    .block-bar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+        .block-bar > div {
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+    .add-toolbar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+        .add-toolbar button {
+            width: 100%;
+        }
+
+    .editor-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+        .editor-actions button,
+        .editor-actions .btn {
+            width: 100%;
+        }
+}
+
+
+@media (max-width: 480px) {
+
+    .add-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .editor-head h2 {
+        font-size: 1.25rem;
+    }
+
+    .block-bar > div {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .mini {
+        width: 100%;
+    }
+}

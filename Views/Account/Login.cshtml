@@ -1,0 +1,133 @@
+@model LoginVm
+
+@{
+    ViewData["Title"] = "Đăng nhập quản trị";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/AccountLogin.css"
+          asp-append-version="true" />
+}
+
+<div class="login-page">
+    <section class="login-card">
+        <div class="login-brand">
+            <span class="login-logo">LT</span>
+
+            <div>
+                <strong>LT LASER</strong>
+                <small>ADMINISTRATION</small>
+            </div>
+        </div>
+
+        <div class="login-heading">
+            <span class="login-eyebrow">KHU VỰC BẢO MẬT</span>
+
+            <h1>Đăng nhập quản trị</h1>
+
+            <p>
+                Nhập tài khoản quản trị để đăng, sửa và quản lý bài viết.
+            </p>
+        </div>
+
+        <form method="post" class="login-form">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+
+                <div class="input-wrapper">
+                    <span class="input-icon" aria-hidden="true">
+                        ✉
+                    </span>
+
+                    <input asp-for="Email"
+                           type="email"
+                           autocomplete="username"
+                           placeholder="admin@example.com"
+                           autofocus />
+                </div>
+
+                <span asp-validation-for="Email"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Mật khẩu</label>
+
+                <div class="input-wrapper password-wrapper">
+                    <span class="input-icon" aria-hidden="true">
+                        ●
+                    </span>
+
+                    <input asp-for="Password"
+                           type="password"
+                           id="password-input"
+                           autocomplete="current-password"
+                           placeholder="Nhập mật khẩu" />
+
+                    <button type="button"
+                            class="password-toggle"
+                            id="password-toggle"
+                            aria-label="Hiện mật khẩu"
+                            aria-pressed="false">
+                        <span id="password-toggle-text">Hiện</span>
+                    </button>
+                </div>
+
+                <span asp-validation-for="Password"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <button type="submit" class="login-submit">
+                Login
+                <span aria-hidden="true">→</span>
+            </button>
+        </form>
+
+        <div class="login-security">
+            <span aria-hidden="true">◆</span>
+
+            <p>
+                Khu vực này chỉ dành cho tài khoản được cấp quyền Admin.
+            </p>
+        </div>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="back-home">
+            ← Quay lại trang chủ
+        </a>
+    </section>
+
+    <aside class="login-decoration" aria-hidden="true">
+        <div class="decoration-grid"></div>
+
+        <div class="decoration-content">
+            <span>SECURE ACCESS</span>
+
+            <h2>Quản lý nội dung tập trung</h2>
+
+            <ul>
+                <li>Đăng và chỉnh sửa bài viết</li>
+                <li>Quản lý hình ảnh</li>
+                <li>Quản lý tài khoản Admin</li>
+            </ul>
+        </div>
+
+        <div class="laser-effect"></div>
+    </aside>
+</div>
+
+@section Scripts {
+    <script src="~/js/AccountLogin.js"
+            asp-append-version="true">
+    </script>
+}

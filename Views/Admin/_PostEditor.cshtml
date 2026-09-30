@@ -1,0 +1,140 @@
+@model PostVm
+@using LTLaserBlogMvc.Models
+
+<link rel="stylesheet" href="~/css/View_Admin_PostEditer.css" />
+<form method="post" enctype="multipart/form-data" id="post-editor">
+    @Html.AntiForgeryToken()
+    <input asp-for="Id" type="hidden">
+    <div asp-validation-summary="All"></div>
+    <section class="editor-meta">
+    <label>Tiêu đề</label><input asp-for="Title" placeholder="Tiêu đề bài viết">
+    <label>Tóm tắt</label><textarea asp-for="Summary" class="summary-input" placeholder="Đoạn giới thiệu ngắn"></textarea>
+    <label>Ảnh bìa</label><input asp-for="CoverImage" type="file" accept="image/jpeg,image/png,image/webp">
+    <span asp-validation-for="CoverImage"></span>
+    @if(Model.HasCoverImage){
+        <label class="check"><input asp-for="KeepCoverImage" type="checkbox"> Giữ ảnh bìa hiện tại</label>
+    }
+    </section>
+    <div class="editor-head">
+        <div>
+            <h2>Nội dung bài viết</h2>
+            <p>Thêm các khối rồi dùng nút lên, xuống để sắp xếp.</p>
+        </div>
+    </div>
+
+
+    <div id="blocks">
+        @for(var i=0;i<Model.Blocks.Count;i++){
+            var b=Model.Blocks[i];
+            <section class="editor-block" data-index="@i">
+            <input name="Blocks[@i].Id" value="@b.Id" type="hidden" data-field="Id">
+            <input name="Blocks[@i].HasExistingImage" value="@b.HasExistingImage.ToString().ToLowerInvariant()" type="hidden" data-field="HasExistingImage">
+            <div class="block-bar">
+                <strong class="block-label">Khối @(i+1)</strong>
+                <div>
+                    <button type="button" class="mini up">↑</button>
+                    <button type="button" class="mini down">↓</button>
+                    <button type="button" class="mini danger remove">Xóa</button>
+                </div>
+            </div>
+            <label>Loại nội dung</label>
+            <select name="Blocks[@i].BlockType" data-field="BlockType" class="block-type">
+                <option value="1" selected="@(b.BlockType==PostBlockType.Heading ? "selected" : null)">Tiêu đề</option>
+                <option value="2" selected="@(b.BlockType==PostBlockType.Paragraph ? "selected" : null)">Đoạn văn</option>
+                <option value="3" selected="@(b.BlockType==PostBlockType.Image ? "selected" : null)">Ảnh</option>
+                <option value="4" selected="@(b.BlockType==PostBlockType.Quote ? "selected" : null)">Trích dẫn</option>
+                <option value="5" selected="@(b.BlockType==PostBlockType.Notice ? "selected" : null)">Ghi chú</option>
+                <option value="6" selected="@(b.BlockType==PostBlockType.List ? "selected" : null)">Danh sách</option>
+            </select>
+
+            <div class="text-fields">
+                <label>Nội dung</label>
+                <textarea name="Blocks[@i].Content" data-field="Content" placeholder="Nhập nội dung. Với danh sách, mỗi dòng là một mục.">@b.Content</textarea>
+            </div>
+            <div class="image-fields">
+                <label>Chọn ảnh</label>
+                <input name="Blocks[@i].Image" data-field="Image" type="file" accept="image/jpeg,image/png,image/webp">
+                <label>Chú thích ảnh</label>
+                <input name="Blocks[@i].Caption" data-field="Caption" value="@b.Caption">
+                @if (b.HasExistingImage)
+                {
+                    <label class="check">
+                        <input name="Blocks[@i].KeepExistingImage"
+                                value="false"
+                                type="hidden"
+                                data-field="KeepExistingImage">
+
+                        <input name="Blocks[@i].KeepExistingImage"
+                                value="true"
+                                type="checkbox"
+                                checked
+                                data-field="KeepExistingImage">
+
+                        Giữ ảnh hiện tại
+                    </label>
+                }
+            </div>
+            </section>
+        }
+    </div>
+
+
+    <div class="add-toolbar">
+        <button type="button" data-add="1">+ Tiêu đề</button>
+        <button type="button" data-add="2">+ Đoạn văn</button>
+        <button type="button" data-add="3">+ Ảnh</button>
+        <button type="button" data-add="4">+ Trích dẫn</button>
+        <button type="button" data-add="5">+ Ghi chú</button>
+        <button type="button" data-add="6">+ Danh sách</button>
+    </div>
+
+
+    <div class="editor-actions">
+        <button type="button" id="preview-button" class="secondary">Xem trước</button>
+        <button type="submit">Lưu bài viết</button>
+        <a class="btn secondary" href="/quan-tri">Hủy</a>
+    </div>
+
+
+</form>
+
+<template id="block-template">
+    <section class="editor-block">
+        <input type="hidden" data-field="Id">
+        <input type="hidden" data-field="KeepExistingImage" value="false">
+        <div class="block-bar"><strong class="block-label"></strong>
+            <div>
+                <button type="button" class="mini up">↑</button>
+                <button type="button" class="mini down">↓</button>
+                <button type="button" class="mini danger remove">Xóa</button>
+            </div>
+        </div>
+
+        <label>Loại nội dung</label>
+        <select data-field="BlockType" class="block-type">
+            <option value="1">Tiêu đề</option>
+            <option value="2">Đoạn văn</option>
+            <option value="3">Ảnh</option>
+            <option value="4">Trích dẫn</option>
+            <option value="5">Ghi chú</option>
+            <option value="6">Danh sách</option>
+        </select>
+        <div class="text-fields">
+            <label>Nội dung</label>
+            <textarea data-field="Content" placeholder="Nhập nội dung. Với danh sách, mỗi dòng là một mục."></textarea>
+        </div>
+        <div class="image-fields">
+            <label>Chọn ảnh</label>
+            <input data-field="Image" type="file" accept="image/jpeg,image/png,image/webp">
+            <label>Chú thích ảnh</label>
+            <input data-field="Caption">
+            <input type="hidden" data-field="KeepExistingImage" value="false">
+        </div>
+    </section>
+</template>
+<dialog id="preview-dialog">
+    <button type="button" id="preview-close" class="mini">Đóng</button>
+    <div id="preview-content"></div>
+</dialog>
+<script src="/js/post-editor.js" defer></script>
+

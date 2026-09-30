@@ -1,0 +1,158 @@
+@model PostListVm
+
+@{
+    ViewData["Title"] = "Bài viết";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/Blog_Index.css"
+          asp-append-version="true" />
+}
+
+<main class="blog-page">
+    <!-- PAGE HEADER -->
+    <header class="blog-hero">
+        <div class="blog-eyebrow">
+            KIẾN THỨC & ỨNG DỤNG
+        </div>
+
+        <h1>
+            Bài viết
+        </h1>
+
+        <p>
+            Cập nhật kiến thức về công nghệ laser,
+            vật liệu, quy trình sản xuất và các mẹo vặt hàng ngày.
+        </p>
+
+        <!-- SEARCH FORM -->
+        <form method="get" action="/bai-viet" class="blog-search-form">
+            <div class="search-input-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text"
+                       name="q"
+                       value="@Model.SearchQuery"
+                       placeholder="Tìm kiếm bài viết..."
+                       class="search-input" />
+                @if (!string.IsNullOrWhiteSpace(Model.SearchQuery))
+                {
+                    <a href="/bai-viet" class="btn-clear-search" title="Xóa từ khóa">✕</a>
+                }
+                <button type="submit" class="btn-search">
+                    Tìm kiếm
+                </button>
+            </div>
+        </form>
+    </header>
+
+
+    <!-- BLOG LIST -->
+    <section class="blog-list">
+
+        <div class="blog-section-head">
+            <h2>
+                @if (!string.IsNullOrWhiteSpace(Model.SearchQuery))
+                {
+                    @:Kết quả tìm kiếm cho "@Model.SearchQuery"
+                }
+                else
+                {
+                    @:Bài viết mới nhất
+                }
+            </h2>
+
+            <span>
+                @Model.TotalCount bài viết
+            </span>
+        </div>
+
+
+        <div class="blog-grid" id="blog-grid">
+            <partial name="_BlogItemsPartial" model="Model.Posts" />
+        </div>
+
+        @if (!Model.Posts.Any())
+        {
+            <div class="empty-state">
+                <p>Không tìm thấy bài viết nào phù hợp với từ khóa của bạn.</p>
+            </div>
+        }
+
+        <!-- LOAD MORE BUTTON -->
+        <div class="load-more-container">
+            <button id="btn-load-more"
+                    class="btn-load-more"
+                    data-skip="@Model.Skip"
+                    data-query="@Model.SearchQuery"
+                    style="@(Model.HasMore ? "" : "display: none;")">
+                <span class="btn-text">Xem thêm bài viết</span>
+                <span class="btn-loader" style="display: none;">
+                    <span class="spinner-dot"></span>
+                    <span class="spinner-dot"></span>
+                    <span class="spinner-dot"></span>
+                </span>
+            </button>
+            <div id="no-more-posts" class="no-more-posts" style="@(!Model.HasMore && Model.Posts.Any() ? "" : "display: none;")">
+                Đã hiển thị tất cả bài viết
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loadMoreBtn = document.getElementById('btn-load-more');
+            const noMorePosts = document.getElementById('no-more-posts');
+            const grid = document.getElementById('blog-grid');
+
+            if (!loadMoreBtn || !grid) return;
+
+            loadMoreBtn.addEventListener('click', async function () {
+                let skip = parseInt(loadMoreBtn.getAttribute('data-skip') || '6', 10);
+                const query = loadMoreBtn.getAttribute('data-query') || '';
+
+                loadMoreBtn.disabled = true;
+                const btnText = loadMoreBtn.querySelector('.btn-text');
+                const btnLoader = loadMoreBtn.querySelector('.btn-loader');
+                if (btnText) btnText.style.display = 'none';
+                if (btnLoader) btnLoader.style.display = 'inline-flex';
+
+                try {
+                    const url = `/bai-viet/load-more?q=${encodeURIComponent(query)}&skip=${skip}&take=6`;
+                    const response = await fetch(url);
+
+                    if (!response.ok) {
+                        throw new Error('Lỗi khi tải dữ liệu');
+                    }
+
+                    const html = await response.text();
+                    const hasMore = response.headers.get('X-Has-More') === 'true';
+
+                    grid.insertAdjacentHTML('beforeend', html);
+
+                    skip += 6;
+                    loadMoreBtn.setAttribute('data-skip', skip.toString());
+
+                    if (!hasMore) {
+                        loadMoreBtn.style.display = 'none';
+                        if (noMorePosts) noMorePosts.style.display = 'block';
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('Có lỗi xảy ra khi tải thêm bài viết. Vui lòng thử lại.');
+                } finally {
+                    loadMoreBtn.disabled = false;
+                    if (btnText) btnText.style.display = 'inline';
+                    if (btnLoader) btnLoader.style.display = 'none';
+                }
+            });
+        });
+    </script>
+}

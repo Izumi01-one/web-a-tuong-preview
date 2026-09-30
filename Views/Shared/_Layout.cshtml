@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="vi">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>@ViewData["Title"] - LT Laser</title>
+        <!-- Phông chữ và CSS -->
+
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />    
+
+        <link rel="preconnect"
+              href="https://fonts.googleapis.com">
+
+        <link rel="preconnect"
+              href="https://fonts.gstatic.com"
+              crossorigin>
+
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+        <link rel="stylesheet" href="/css/ShareLayoutStyle.css" />
+
+       
+        
+        @await RenderSectionAsync("Styles", required: false)
+
+        <script src="/js/ShareLayout.js" defer></script>
+		@* <link rel="stylesheet" href="/css/blog.css"> *@
+	</head>
+	<body>
+		
+
+        <header class="header" id="top">
+            <div class="container nav-wrap">
+                <a class="brand"
+                   asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="top"
+                   aria-label="LT Laser Production - Trang chủ">
+                    <span class="brand-mark">LT</span>
+                    <span><strong>LT LASER</strong><small>PRODUCTION</small></span>
+                </a>
+                <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            <nav class="nav" aria-label="Điều hướng chính">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="about">
+                    Giới thiệu
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="services">
+                    Dịch vụ
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="gallery">
+                    Hình ảnh
+                </a>
+
+                <a asp-controller="Blog"
+                   asp-action="Index">
+                    Bài viết
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="advantages">
+                    Ưu điểm
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="process">
+                    Quy trình
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   asp-fragment="contact"
+                   class="nav-cta">
+                    Liên hệ ngay
+                </a>
+            </nav>
+            </div>
+        </header>
+
+
+		<main class="wrap">@RenderBody()</main>
+
+
+        <footer id="contact">
+            <div class="container footer-top">
+                <div class="contact-area">
+                    <span class="eyebrow">LIÊN HỆ SẢN XUẤT</span>
+                    <h2>Sẵn sàng hiện thực hóa thiết kế của bạn?</h2>
+                    <p>Gửi mẫu hoặc yêu cầu để được tư vấn phương án gia công phù hợp.</p>
+                    <div class="contact-list">
+                        <div class="contact-item highlight">
+                            <span class="contact-icon">☎</span><div><small>ZALO / HOTLINE</small><a href="tel:+84766162868">(+84) 766 162 868</a></div>
+                            <button class="copy-btn" data-copy="0766162868" aria-label="Sao chép số điện thoại">Sao chép</button>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">✉</span><div><small>EMAIL</small><a href="mailto:ltlaservietnam@gmail.com">ltlaservietnam@gmail.com</a></div>
+                            <button class="copy-btn" data-copy="ltlaservietnam@gmail.com" aria-label="Sao chép email">Sao chép</button>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">⌖</span><div><small>ĐỊA CHỈ</small><p>Tổ 18, xã Hải Thịnh, tỉnh Ninh Bình, Việt Nam</p></div>
+                            <button class="copy-btn" data-copy="Tổ 18, xã Hải Thịnh, tỉnh Ninh Bình, Việt Nam" aria-label="Sao chép địa chỉ">Sao chép</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-area">
+                    <iframe title="Bản đồ khu vực Hải Thịnh, Ninh Bình" src="https://www.google.com/maps?q=Hai%20Thinh%2C%20Ninh%20Binh%2C%20Vietnam&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <a class="map-link" href="https://maps.app.goo.gl/dAAqEL5QYe44s3zq8" target="_blank" rel="noopener">Mở trong Google Maps ↗</a>
+                </div>
+            </div>
+            <div class="container footer-bottom">
+                <a class="brand footer-brand" href="#top">
+                    <span class="brand-mark">LT</span>
+                    <span><strong>LT LASER</strong><small>PRODUCTION</small></span>
+                </a>
+                <p>© <span id="year"></span> HoangDinh Entertaiment. All rights reserved.</p>
+            </div>
+        </footer>
+        <div class="toast" role="status" aria-live="polite">Đã sao chép!</div>
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+    
+	</body>
+</html>

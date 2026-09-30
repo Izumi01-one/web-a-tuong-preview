@@ -1,0 +1,47 @@
+@model IEnumerable<Post>
+
+@foreach (var p in Model)
+{
+    <article class="blog-card">
+        @if (p.ImageData is not null)
+        {
+            <a class="blog-card-image"
+               href="/bai-viet/@p.Slug">
+                <img src="/bai-viet/anh/@p.Id"
+                     alt="Ảnh bài viết @p.Title"
+                     loading="lazy" />
+            </a>
+        }
+
+        <div class="blog-card-body">
+            <div class="blog-card-meta">
+                <span>
+                    @p.CreatedAtUtc.ToLocalTime().ToString("dd/MM/yyyy")
+                </span>
+                <span class="meta-dot"></span>
+                <span>
+                    @p.ViewCount lượt xem
+                </span>
+            </div>
+
+            <h2 class="blog-card-title">
+                <a href="/bai-viet/@p.Slug">
+                    @p.Title
+                </a>
+            </h2>
+
+            @if (!string.IsNullOrWhiteSpace(p.Summary))
+            {
+                <p class="blog-card-summary">
+                    @p.Summary
+                </p>
+            }
+
+            <a class="blog-read"
+               href="/bai-viet/@p.Slug">
+                <span>Đọc bài viết</span>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </article>
+}

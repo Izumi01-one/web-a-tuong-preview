@@ -1,0 +1,316 @@
+﻿/* ========================================
+   CREATE ADMIN PAGE
+======================================== */
+
+.admin-create-page {
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px 80px;
+    box-sizing: border-box;
+    background: radial-gradient( circle at top center, rgba(138, 180, 60, 0.12), transparent 35% );
+}
+
+
+/* ========================================
+   CARD
+======================================== */
+
+.admin-create-card {
+    width: 100%;
+    max-width: 720px;
+    padding: 38px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.admin-create-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #eceff1;
+}
+
+.admin-icon {
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b7e24a;
+    background: #172126;
+    border-radius: 16px;
+    font-size: 24px;
+    font-weight: 800;
+    box-shadow: 0 10px 25px rgba(23, 33, 38, 0.2);
+}
+
+.admin-badge {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: #7ca51b;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.admin-create-header h1 {
+    margin: 0 0 6px;
+    color: #172126;
+    font-size: 1.75rem;
+    line-height: 1.2;
+}
+
+.admin-create-header p {
+    margin: 0;
+    color: #70777d;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   ALERT
+======================================== */
+
+.admin-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 22px;
+    padding: 16px 18px;
+    border-radius: 14px;
+}
+
+    .admin-alert > span {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: 800;
+    }
+
+    .admin-alert strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.9rem;
+    }
+
+    .admin-alert p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+
+    /* SUCCESS */
+
+    .admin-alert.success {
+        color: #166534;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+    }
+
+        .admin-alert.success > span {
+            color: #ffffff;
+            background: #22c55e;
+        }
+
+
+    /* WARNING */
+
+    .admin-alert.warning {
+        color: #854d0e;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+    }
+
+        .admin-alert.warning > span {
+            color: #ffffff;
+            background: #eab308;
+        }
+
+
+/* ========================================
+   FORM CONTAINER
+======================================== */
+
+.admin-form-container {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #eceff1;
+}
+
+
+    /* ========================================
+   FORM
+   Áp dụng cho _AdminForm
+======================================== */
+
+    .admin-form-container form {
+        display: grid;
+        gap: 8px;
+    }
+
+    .admin-form-container label {
+        display: block;
+        margin-top: 10px;
+        color: #30383d;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    .admin-form-container input[type="text"],
+    .admin-form-container input[type="email"],
+    .admin-form-container input[type="password"],
+    .admin-form-container select,
+    .admin-form-container textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 15px;
+        color: #20272b;
+        background: #ffffff;
+        border: 1px solid #d9dee0;
+        border-radius: 10px;
+        font: inherit;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+        .admin-form-container input[type="text"]:hover,
+        .admin-form-container input[type="email"]:hover,
+        .admin-form-container input[type="password"]:hover {
+            border-color: #b6bec1;
+        }
+
+        .admin-form-container input[type="text"]:focus,
+        .admin-form-container input[type="email"]:focus,
+        .admin-form-container input[type="password"]:focus,
+        .admin-form-container select:focus,
+        .admin-form-container textarea:focus {
+            outline: none;
+            border-color: #91b83c;
+            box-shadow: 0 0 0 4px rgba(145, 184, 60, 0.15);
+        }
+
+
+    /* ========================================
+   CHECKBOX
+======================================== */
+
+    .admin-form-container input[type="checkbox"] {
+        width: 17px;
+        height: 17px;
+        accent-color: #8cad36;
+    }
+
+
+    /* ========================================
+   VALIDATION
+======================================== */
+
+    .admin-form-container .field-validation-error,
+    .admin-form-container .validation-summary-errors {
+        color: #dc2626;
+        font-size: 0.85rem;
+    }
+
+    .admin-form-container .input-validation-error {
+        border-color: #ef4444 !important;
+    }
+
+    .admin-form-container .validation-summary-errors {
+        margin-bottom: 10px;
+        padding: 14px 16px;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 10px;
+    }
+
+        .admin-form-container .validation-summary-errors ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+
+    /* ========================================
+   BUTTON
+======================================== */
+
+    .admin-form-container button,
+    .admin-form-container input[type="submit"] {
+        width: 100%;
+        margin-top: 16px;
+        padding: 14px 20px;
+        color: #ffffff;
+        background: #172126;
+        border: none;
+        border-radius: 11px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(23, 33, 38, 0.16);
+        transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .admin-form-container button:hover,
+        .admin-form-container input[type="submit"]:hover {
+            background: #26343a;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px rgba(23, 33, 38, 0.2);
+        }
+
+        .admin-form-container button:active,
+        .admin-form-container input[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 600px) {
+
+    .admin-create-page {
+        padding: 30px 12px 50px;
+    }
+
+    .admin-create-card {
+        padding: 24px 18px;
+        border-radius: 16px;
+    }
+
+    .admin-create-header {
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .admin-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        font-size: 20px;
+    }
+
+    .admin-create-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .admin-alert {
+        padding: 14px;
+    }
+}
